@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class DataLayerTest implements CommandLineRunner {
@@ -142,6 +143,35 @@ public class DataLayerTest implements CommandLineRunner {
             System.out.println("Runs: " + runRepository.count());
 
             System.out.println("\nDATA LAYER TEST COMPLETED SUCCESSFULLY");
+
+            // =================================================
+            System.out.println("\nGrabbing all runs with game ID 3 and category 100%");
+            System.out.println("Game name: " + gameRepository.findById(3).get().getTitle());
+            List<Run> runs = runRepository.findByGame_IdAndCategoryOrderByTimeMillisecondsAsc(3, "100%");
+            for (Run r : runs) {
+                System.out.println(r.getId() + " | " + r.getAuthor().getDisplayName() + " | " + r.getCategory() + " | " + r.getTimeMilliseconds() + " | " + r.getSetDate());
+            }
+
+            System.out.println("\nGrabbing all runs with game ID 5 and category Any%");
+            System.out.println("Game name: " + gameRepository.findById(5).get().getTitle());
+            runs = runRepository.findByGame_IdAndCategoryOrderByTimeMillisecondsAsc(5, "Any%");
+            for (Run r : runs) {
+                System.out.println(r.getId() + " | " + r.getAuthor().getDisplayName() + " | " + r.getCategory() + " | " + r.getTimeMilliseconds() + " | " + r.getSetDate());
+            }
+
+            System.out.println("\nGrabbing all runs with author ID 1");
+            System.out.println("Author username: " + authorRepository.findById(1).get().getUsername());
+            runs = runRepository.findByAuthor_IdOrderBySetDateDesc(1);
+            for (Run r : runs) {
+                System.out.println(r.getId() + " | " + r.getAuthor().getDisplayName() + " | " + r.getCategory() + " | " + r.getTimeMilliseconds() + " | " + r.getSetDate());
+            }
+
+            System.out.println("\nGrabbing all existing categories for game with ID 3");
+            System.out.println("Game name: " + gameRepository.findById(3).get().getTitle());
+            List<String> categories = runRepository.findDistinctCategoriesByGameId(3);
+            for (String category : categories) {
+                System.out.println(category);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

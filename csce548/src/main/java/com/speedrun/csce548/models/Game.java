@@ -15,6 +15,7 @@ public class Game
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "title", nullable = false, unique = true)
