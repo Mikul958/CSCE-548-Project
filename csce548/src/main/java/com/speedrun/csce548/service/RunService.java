@@ -36,7 +36,7 @@ public class RunService
      * @param authorId ID of the author that set the run. Cannot be null and must exist.
      * @return The created run as it appears in the database.
      */
-    public Run create(Run run, Integer gameId, Integer authorId) {
+    public Run addRun(Run run, Integer gameId, Integer authorId) {
         Game foundGame = gameRepository.findById(gameId)
                 .orElseThrow(() -> new RuntimeException("Game not found: " + gameId));
         Author foundAuthor = authorRepository.findById(authorId)
@@ -51,7 +51,7 @@ public class RunService
      * Gets all runs in the database.
      * @return A list containing all existing runs.
      */
-    public List<Run> getAll() {
+    public List<Run> getAllRuns() {
         return runRepository.findAll();
     }
 
@@ -60,7 +60,7 @@ public class RunService
      * @param id Target ID of the run to retrieve.
      * @return The target run.
      */
-    public Run getById(Integer id) {
+    public Run getRunById(Integer id) {
         return runRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No run found with ID: " + id));
     }
@@ -71,7 +71,7 @@ public class RunService
      * @param updatedRun Run data to update the run in the database with.
      * @return The updated run.
      */
-    public Run update(Integer id, Run updatedRun) {
+    public Run updateRun(Integer id, Run updatedRun) {
         Run foundRun = runRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No run found with ID: " + id));
 
@@ -91,7 +91,7 @@ public class RunService
      * @param authorId Author ID to link the run in the database to. Cannot be null and must exist.
      * @return The updated run.
      */
-    public Run updateLinks(Integer id, Integer gameId, Integer authorId){
+    public Run updateRunLinks(Integer id, Integer gameId, Integer authorId){
         Run foundRun = runRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No run found with ID: " + id));
 
@@ -109,7 +109,7 @@ public class RunService
      * Deletes the run with the given ID from the database.
      * @param id Target ID to delete.
      */
-    public void delete(Integer id) {
+    public void deleteRun(Integer id) {
         runRepository.deleteById(id);
     }
 }

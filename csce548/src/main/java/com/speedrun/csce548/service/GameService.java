@@ -28,7 +28,7 @@ public class GameService
      * @param game Data for the new game.
      * @return The created game as it appears in the database.
      */
-    public Game create(Game game) {
+    public Game addGame(Game game) {
         return gameRepository.save(game);
     }
 
@@ -36,7 +36,7 @@ public class GameService
      * Gets all games in the database.
      * @return A list containing all existing games.
      */
-    public List<Game> getAll() {
+    public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
 
@@ -45,7 +45,7 @@ public class GameService
      * @param id Target ID of the game to retrieve.
      * @return The target game.
      */
-    public Game getById(Integer id) {
+    public Game getGameById(Integer id) {
         return gameRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No game found with ID: " + id));
     }
@@ -56,7 +56,7 @@ public class GameService
      * @param updatedGame Game data to update the run in the database with.
      * @return The updated game.
      */
-    public Game update(Integer id, Game updatedGame) {
+    public Game updateGame(Integer id, Game updatedGame) {
         Game foundGame = gameRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No game found with ID: " + id));
 
@@ -74,7 +74,7 @@ public class GameService
      * Deletes the game with the given ID from the database.
      * @param id Target ID to delete.
      */
-    public void delete(Integer id) {
+    public void deleteGame(Integer id) {
         gameRepository.deleteById(id);
     }
 
@@ -86,7 +86,7 @@ public class GameService
      * @param category The category of the game to retrieve times for.
      * @return A list of runs ordered from fastest to slowest.
      */
-    public List<Run> getLeaderboard(Integer gameId, String category) {
+    public List<Run> getLeaderboardForGame(Integer gameId, String category) {
         return runRepository.findByGame_IdAndCategoryOrderByTimeMillisecondsAsc(gameId, category);
     }
 
