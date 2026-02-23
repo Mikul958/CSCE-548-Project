@@ -1,21 +1,43 @@
-package models;
+package com.speedrun.csce548.models;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Game")
 public class Game
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "thumbnail_url")
     private String thumbnailUrl;
+
+    @Column(name = "release_date")
     private LocalDate releaseDate;
+
+    @Column(name = "developer")
     private String developer;
+
+    @Column(name = "publisher")
     private String publisher;
 
-    public Game() {}
+    protected Game() {}  // Empty constructor for Spring Data JPA, should not be called manually.
 
     public Game(
-        Integer id,
         String title,
         String description,
         String thumbnailUrl,
@@ -23,7 +45,6 @@ public class Game
         String developer,
         String publisher
     ) {
-        this.id = id;
         this.title = title;
         this.description = description;
         this.thumbnailUrl = thumbnailUrl;
