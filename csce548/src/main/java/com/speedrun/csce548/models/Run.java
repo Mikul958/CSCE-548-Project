@@ -46,7 +46,6 @@ public class Run {
     protected Run() {}  // Empty constructor for Spring Data JPA, should not be called manually.
 
     public Run(
-        Integer id,
         Game game,
         Author author,
         String category,
@@ -55,7 +54,6 @@ public class Run {
         LocalDate setDate,
         Boolean verified
     ) {
-        this.id = id;
         this.game = game;
         this.author = author;
         this.category = category;

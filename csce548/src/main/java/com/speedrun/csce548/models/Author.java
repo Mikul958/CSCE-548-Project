@@ -35,14 +35,12 @@ public class Author
     protected Author() {}  // Empty constructor for Spring Data JPA, should not be called manually.
 
     public Author(
-        Integer id,
         String username,
         String displayName,
         String passwordHash,
         String profilePictureUrl,
         LocalDate createDate
     ) {
-        this.id = id;
         this.username = username;
         this.displayName = displayName;
         this.passwordHash = passwordHash;

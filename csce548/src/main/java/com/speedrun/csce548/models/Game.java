@@ -38,7 +38,6 @@ public class Game
     protected Game() {}  // Empty constructor for Spring Data JPA, should not be called manually.
 
     public Game(
-        Integer id,
         String title,
         String description,
         String thumbnailUrl,
@@ -46,7 +45,6 @@ public class Game
         String developer,
         String publisher
     ) {
-        this.id = id;
         this.title = title;
         this.description = description;
         this.thumbnailUrl = thumbnailUrl;
