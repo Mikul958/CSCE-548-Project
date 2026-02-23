@@ -2,8 +2,8 @@ package com.speedrun.csce548.exceptions;
 
 import java.time.LocalDateTime;
 
-public class ErrorResponse {
-
+public class ErrorResponse
+{
     private int status;
     private String error;
     private String message;

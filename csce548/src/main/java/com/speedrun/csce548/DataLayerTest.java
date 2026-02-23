@@ -15,8 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class DataLayerTest implements CommandLineRunner {
-
+public class DataLayerTest implements CommandLineRunner
+{
     private final AuthorRepository authorRepository;
     private final GameRepository gameRepository;
     private final RunRepository runRepository;

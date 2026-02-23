@@ -10,15 +10,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/runs")
-public class RunController {
-
+public class RunController
+{
     private final RunService runService;
 
     public RunController(RunService runService) {
         this.runService = runService;
     }
 
-    
+
     // CREATE ENDPOINTS
     @PostMapping
     public ResponseEntity<Run> create(@RequestParam Integer gameId, @RequestParam Integer authorId, @RequestBody Run run) {

@@ -11,8 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/games")
-public class GameController {
-
+public class GameController
+{
     private final GameService gameService;
 
     public GameController(GameService gameService) {

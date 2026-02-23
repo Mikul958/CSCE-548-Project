@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
-
+public class GlobalExceptionHandler
+{
     // Return 400 Bad Request when IllegalArgumentException is thrown
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
