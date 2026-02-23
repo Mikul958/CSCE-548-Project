@@ -14,10 +14,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Run")
-public class Run {
-
+public class Run
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -76,7 +77,7 @@ public class Run {
         return game;
     }
 
-    public void setGameId(Game game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 
@@ -84,7 +85,7 @@ public class Run {
         return author;
     }
 
-    public void setAuthorId(Author author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
