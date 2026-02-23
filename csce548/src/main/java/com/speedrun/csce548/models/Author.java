@@ -1,17 +1,38 @@
-package models;
+package com.speedrun.csce548.models;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Author")
 public class Author
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+    @Column(name = "display_name", nullable = false)
     private String displayName;
+
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
+
+    @Column(name = "profile_picture_url")
     private String profilePictureUrl;
+
+    @Column(name = "create_date")
     private LocalDate createDate;
 
-    public Author() {}
+    protected Author() {}  // Empty constructor for Spring Data JPA, should not be called manually.
 
     public Author(
         Integer id,

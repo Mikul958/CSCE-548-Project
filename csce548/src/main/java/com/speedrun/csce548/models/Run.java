@@ -1,19 +1,49 @@
-package models;
+package com.speedrun.csce548.models;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Run")
 public class Run {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id")
     private Game game;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private Author author;
+
+    @Column(name = "category", nullable = false)
     private String category;
+
+    @Column(name = "time_milliseconds", nullable = false)
     private Integer timeMilliseconds;
+
+    @Column(name = "video_url")
     private String videoUrl;
+
+    @Column(name = "set_date")
     private LocalDate setDate;
+
+    @Column(name = "verified")
     private Boolean verified;
 
-    public Run() {}
+    protected Run() {}  // Empty constructor for Spring Data JPA, should not be called manually.
 
     public Run(
         Integer id,
