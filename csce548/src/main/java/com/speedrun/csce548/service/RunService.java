@@ -1,5 +1,6 @@
 package com.speedrun.csce548.service;
 
+import com.speedrun.csce548.exceptions.EntryNotFoundException;
 import com.speedrun.csce548.models.Author;
 import com.speedrun.csce548.models.Game;
 import com.speedrun.csce548.models.Run;
@@ -37,10 +38,13 @@ public class RunService
      * @return The created run as it appears in the database.
      */
     public Run addRun(Run run, Integer gameId, Integer authorId) {
+        if (run.getId() != null)
+            throw new IllegalArgumentException("New run cannot already have an ID");
+
         Game foundGame = gameRepository.findById(gameId)
-                .orElseThrow(() -> new RuntimeException("Game not found: " + gameId));
+                .orElseThrow(() -> new EntryNotFoundException("Game not found: " + gameId));
         Author foundAuthor = authorRepository.findById(authorId)
-                .orElseThrow(() -> new RuntimeException("Author not found: " + authorId));
+                .orElseThrow(() -> new EntryNotFoundException("Author not found: " + authorId));
         run.setGame(foundGame);
         run.setAuthor(foundAuthor);
 
@@ -62,7 +66,7 @@ public class RunService
      */
     public Run getRunById(Integer id) {
         return runRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No run found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
     }
 
     /**
@@ -73,7 +77,7 @@ public class RunService
      */
     public Run updateRun(Integer id, Run updatedRun) {
         Run foundRun = runRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No run found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
 
         foundRun.setCategory(updatedRun.getCategory());
         foundRun.setTimeMilliseconds(updatedRun.getTimeMilliseconds());
@@ -93,12 +97,12 @@ public class RunService
      */
     public Run updateRunLinks(Integer id, Integer gameId, Integer authorId){
         Run foundRun = runRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No run found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
 
         Game foundGame = gameRepository.findById(gameId)
-                .orElseThrow(() -> new RuntimeException("Game not found: " + gameId));
+                .orElseThrow(() -> new EntryNotFoundException("Game not found: " + gameId));
         Author foundAuthor = authorRepository.findById(authorId)
-                .orElseThrow(() -> new RuntimeException("Author not found: " + authorId));
+                .orElseThrow(() -> new EntryNotFoundException("Author not found: " + authorId));
         foundRun.setGame(foundGame);
         foundRun.setAuthor(foundAuthor);
 

@@ -1,5 +1,6 @@
 package com.speedrun.csce548.service;
 
+import com.speedrun.csce548.exceptions.EntryNotFoundException;
 import com.speedrun.csce548.models.Game;
 import com.speedrun.csce548.models.Run;
 import com.speedrun.csce548.repository.GameRepository;
@@ -29,6 +30,8 @@ public class GameService
      * @return The created game as it appears in the database.
      */
     public Game addGame(Game game) {
+        if (game.getId() != null)
+            throw new IllegalArgumentException("New game cannot already have an ID");
         return gameRepository.save(game);
     }
 
@@ -47,7 +50,7 @@ public class GameService
      */
     public Game getGameById(Integer id) {
         return gameRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No game found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No game found with ID: " + id));
     }
 
     /**
@@ -58,7 +61,7 @@ public class GameService
      */
     public Game updateGame(Integer id, Game updatedGame) {
         Game foundGame = gameRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No game found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No game found with ID: " + id));
 
         foundGame.setTitle(updatedGame.getTitle());
         foundGame.setDescription(updatedGame.getDescription());

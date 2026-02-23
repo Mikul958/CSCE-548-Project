@@ -1,5 +1,6 @@
 package com.speedrun.csce548.service;
 
+import com.speedrun.csce548.exceptions.EntryNotFoundException;
 import com.speedrun.csce548.models.Author;
 import com.speedrun.csce548.models.Run;
 import com.speedrun.csce548.repository.AuthorRepository;
@@ -49,7 +50,7 @@ public class AuthorService
      */
     public Author getAuthorById(Integer id) {
         return authorRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No author found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No author found with ID: " + id));
     }
 
     /**
@@ -60,7 +61,7 @@ public class AuthorService
      */
     public Author updateAuthor(Integer id, Author updatedAuthor) {
         Author foundAuthor = authorRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No author found with ID: " + id));
+            .orElseThrow(() -> new EntryNotFoundException("No author found with ID: " + id));
 
         foundAuthor.setUsername(updatedAuthor.getUsername());
         foundAuthor.setDisplayName(updatedAuthor.getDisplayName());

@@ -4,6 +4,8 @@ import com.speedrun.csce548.models.Game;
 import com.speedrun.csce548.service.GameService;
 import com.speedrun.csce548.models.Run;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,40 +22,47 @@ public class GameController {
 
     // CREATE ENDPOINTS
     @PostMapping
-    public Game create(@RequestBody Game game) {
-        return gameService.addGame(game);
+    public ResponseEntity<Game> create(@RequestBody Game game) {
+        Game addedGame = gameService.addGame(game);
+        return ResponseEntity.status(HttpStatus.CREATED).body(addedGame);
     }
 
     // READ ENDPOINTS
     @GetMapping
-    public List<Game> getAll() {
-        return gameService.getAllGames();
+    public ResponseEntity<List<Game>> getAll() {
+        List<Game> retrievedGames = gameService.getAllGames();
+        return ResponseEntity.ok(retrievedGames);
     }
 
     @GetMapping("/{id}")
-    public Game getById(@PathVariable Integer id) {
-        return gameService.getGameById(id);
+    public ResponseEntity<Game> getById(@PathVariable Integer id) {
+        Game retrievedGame = gameService.getGameById(id);
+        return ResponseEntity.ok(retrievedGame);
     }
 
     @GetMapping("/{id}/categories")
-    public List<String> getCategories(@PathVariable Integer id) {
-        return gameService.getCategoriesForGame(id);
+    public ResponseEntity<List<String>> getCategories(@PathVariable Integer id) {
+        List<String> availableCategories = gameService.getCategoriesForGame(id);
+        return ResponseEntity.ok(availableCategories);
     }
 
     @GetMapping("/{id}/leaderboard")
-    public List<Run> getLeaderboard(@PathVariable Integer id, @RequestParam String category) {
-        return gameService.getLeaderboardForGame(id, category);
+    public ResponseEntity<List<Run>> getLeaderboard(@PathVariable Integer id, @RequestParam String category) {
+        List<Run> leaderboard = gameService.getLeaderboardForGame(id, category);
+        return ResponseEntity.ok(leaderboard);
     }
 
     // UPDATE ENDPOINTS
     @PutMapping("/{id}")
-    public Game update(@PathVariable Integer id, @RequestBody Game game) {
-        return gameService.updateGame(id, game);
+    public ResponseEntity<Game> update(@PathVariable Integer id, @RequestBody Game game) {
+        Game updatedGame = gameService.updateGame(id, game);
+        return ResponseEntity.ok(updatedGame);
     }
 
     // DELETE ENDPOINTS
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         gameService.deleteGame(id);
+        return ResponseEntity.noContent().build();
     }
 }
