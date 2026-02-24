@@ -7,15 +7,21 @@ app = 'speedrun-csce548'
 primary_region = 'iad'
 
 [build]
-  image = 'mysql:8.4'
+  dockerfile = "Dockerfile"
 
 [http_service]
   internal_port = 8080
-  force_https = true
+  force_https = false
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
+
+  # Add this to wait longer for Spring Boot to wake up
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
 
 [[vm]]
   memory = '1gb'

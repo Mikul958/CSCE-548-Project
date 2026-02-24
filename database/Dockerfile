@@ -3,7 +3,7 @@ FROM mysql:8.4
 
 # Set environment variables for database container
 ENV MYSQL_ROOT_PASSWORD=rootpassword123
-ENV MYSQL_DATABASE=speedrun_project
+ENV MYSQL_DATABASE=speedrun_app
 ENV MYSQL_USER=speedrun_db
 ENV MYSQL_PASSWORD=notmyrootpassword321
 

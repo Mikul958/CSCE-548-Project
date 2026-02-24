@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/games")
@@ -32,6 +35,11 @@ public class GameController
     public ResponseEntity<List<Game>> getAll() {
         List<Game> retrievedGames = gameService.getAllGames();
         return ResponseEntity.ok(retrievedGames);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test successful";
     }
 
     @GetMapping("/{id}")
