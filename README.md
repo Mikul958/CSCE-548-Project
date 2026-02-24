@@ -6,3 +6,24 @@ This project consisted of two phases:
 * The second phase focused on cleaning up the code written by ChatGPT using concepts and techniques learned it class. It consisted of fixing security vulnerabilities and improving implementations when necessary.
 
 This project was built using MySQL and Java (planning on migrating to Spring, change this if possible).
+
+## Hosting with Fly.io
+
+### Set up Fly.io
+1. Navigate to https://fly.io/docs/hands-on/install-flyctl/ and install the flyctl CLI.
+2. Authenticate in the terminal.
+
+### Set up database container
+1. Navigate to `<repository root>/database` to ensure you are using the database Dockerfile and fly.toml configuration.
+2. Create the database container with `fly apps create speedrun-mysql`.
+3. Create a container volume (necessary for persistent storage) with `fly volumes create mysql_data -r iad -n 1`.
+4. Deploy the database container using `fly deploy` and wait for the deployment to finish.
+   <br>a. Database creation scripts should run automatically during this stage -- if you find the database ends up empty you can use `fly ssh console` to SSH into the container and run these scripts manually in SQL (located in docker-entrypoint-initdb-d, root pass=rootpassword123).
+5. Verify the app has been deployed using `fly apps list` and/or `fly status`.
+
+### Set up API container
+1. Navigate to `<repository root>/api` to ensure you are using the Spring Boot Dockerfile and fly.toml configuration.
+2. Create the API container with `fly apps create speedrun-csce548`.
+3. Deploy the API container using `fly deploy` and wait for the deployment to finish.
+4. Use `fly logs` to examine the logs of the API as it starts up and runs.
+5. Optionally, visit the URL `{{fly.io app url}}/health`; if the server is running, it should return a 200 OK.
