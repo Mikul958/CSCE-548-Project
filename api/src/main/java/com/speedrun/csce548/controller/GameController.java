@@ -37,11 +37,6 @@ public class GameController
         return ResponseEntity.ok(retrievedGames);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Test successful";
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<Game> getById(@PathVariable Integer id) {
         Game retrievedGame = gameService.getGameById(id);
