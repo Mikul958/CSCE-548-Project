@@ -1,0 +1,38 @@
+# flyctl launch added from csce548\.gitignore
+csce548\**\HELP.md
+csce548\**\target
+csce548\**\.mvn\wrapper\maven-wrapper.jar
+!csce548\**\**\src\main\**\target
+!csce548\**\**\src\test\**\target
+
+### STS ###
+csce548\**\.apt_generated
+csce548\**\.classpath
+csce548\**\.factorypath
+csce548\**\.project
+csce548\**\.settings
+csce548\**\.springBeans
+csce548\**\.sts4-cache
+
+### IntelliJ IDEA ###
+csce548\**\.idea
+csce548\**\*.iws
+csce548\**\*.iml
+csce548\**\*.ipr
+
+### Visual Studio Code ###
+csce548\**\.vscode
+
+### NetBeans ###
+csce548\nbproject\private
+csce548\nbbuild
+csce548\dist
+csce548\nbdist
+csce548\.nb-gradle
+csce548\**\build
+!csce548\**\**\src\main\**\build
+!csce548\**\**\src\test\**\build
+
+### VS Code ###
+csce548\**\.vscode
+fly.toml
