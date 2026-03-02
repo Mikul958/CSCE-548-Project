@@ -2,12 +2,17 @@ package com.speedrun.csce548.service;
 
 import com.speedrun.csce548.exceptions.EntryNotFoundException;
 import com.speedrun.csce548.models.Author;
+import com.speedrun.csce548.models.AuthorRequest;
+import com.speedrun.csce548.models.AuthorResponse;
 import com.speedrun.csce548.models.Run;
+import com.speedrun.csce548.models.RunResponse;
 import com.speedrun.csce548.repository.AuthorRepository;
 import com.speedrun.csce548.repository.RunRepository;
 
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -29,18 +34,20 @@ public class AuthorService
      * @param author Data for the new author.
      * @return The created author as it appears in the database.
      */
-    public Author addAuthor(Author author) {
-        if (author.getId() != null)
-            throw new IllegalArgumentException("New author cannot already have an ID");
-        return authorRepository.save(author);
+    public AuthorResponse addAuthor(AuthorRequest author) {
+        Author authorEntity = author.fromRequest();
+        authorEntity.setCreateDate(LocalDate.now());
+        Author savedAuthor = authorRepository.save(authorEntity);
+        return new AuthorResponse(savedAuthor);
     }
 
     /**
      * Gets all authors in the database.
      * @return A list containing all existing authors.
      */
-    public List<Author> getAllAuthors() {
-        return authorRepository.findAll();
+    public List<AuthorResponse> getAllAuthors() {
+        List<Author> authorEntities = authorRepository.findAll();
+        return authorEntities.stream().map(AuthorResponse::new).toList();
     }
 
     /**
@@ -48,9 +55,10 @@ public class AuthorService
      * @param id Target ID of the author to retrieve.
      * @return The target author.
      */
-    public Author getAuthorById(Integer id) {
-        return authorRepository.findById(id)
+    public AuthorResponse getAuthorById(Integer id) {
+        Author foundAuthor = authorRepository.findById(id)
             .orElseThrow(() -> new EntryNotFoundException("No author found with ID: " + id));
+        return new AuthorResponse(foundAuthor);
     }
 
     /**
@@ -59,16 +67,14 @@ public class AuthorService
      * @param updatedAuthor Author data to update the author in the database with.
      * @return The updated author.
      */
-    public Author updateAuthor(Integer id, Author updatedAuthor) {
+    public AuthorResponse updateAuthor(Integer id, AuthorRequest updatedAuthor) {
         Author foundAuthor = authorRepository.findById(id)
             .orElseThrow(() -> new EntryNotFoundException("No author found with ID: " + id));
 
-        foundAuthor.setUsername(updatedAuthor.getUsername());
-        foundAuthor.setDisplayName(updatedAuthor.getDisplayName());
-        foundAuthor.setPasswordHash(updatedAuthor.getPasswordHash());
-        foundAuthor.setProfilePictureUrl(updatedAuthor.getProfilePictureUrl());
-
-        return authorRepository.save(foundAuthor);
+        foundAuthor = updatedAuthor.fromRequest();
+        foundAuthor.setId(id);
+        Author savedAuthor = authorRepository.save(foundAuthor);
+        return new AuthorResponse(savedAuthor);
     }
 
     /**
@@ -76,6 +82,8 @@ public class AuthorService
      * @param id Target ID to delete.
      */
     public void deleteAuthor(Integer id) {
+        authorRepository.findById(id)
+            .orElseThrow(() -> new EntryNotFoundException("No author found with ID: " + id));
         authorRepository.deleteById(id);
     }
 
@@ -86,7 +94,8 @@ public class AuthorService
      * @param authorId The ID of the author to retrieve the history for.
      * @return A list of all runs created by this author ordered from most recent to least recent.
      */
-    public List<Run> getRunHistory(Integer authorId) {
-        return runRepository.findByAuthor_IdOrderBySetDateDesc(authorId);
+    public List<RunResponse> getRunHistory(Integer authorId) {
+        List<Run> runEntities = runRepository.findByAuthor_IdOrderBySetDateDesc(authorId);
+        return runEntities.stream().map(RunResponse::new).toList();
     }
 }

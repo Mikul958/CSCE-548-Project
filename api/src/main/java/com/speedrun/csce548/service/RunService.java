@@ -4,6 +4,8 @@ import com.speedrun.csce548.exceptions.EntryNotFoundException;
 import com.speedrun.csce548.models.Author;
 import com.speedrun.csce548.models.Game;
 import com.speedrun.csce548.models.Run;
+import com.speedrun.csce548.models.RunRequest;
+import com.speedrun.csce548.models.RunResponse;
 import com.speedrun.csce548.repository.AuthorRepository;
 import com.speedrun.csce548.repository.GameRepository;
 import com.speedrun.csce548.repository.RunRepository;
@@ -37,26 +39,24 @@ public class RunService
      * @param authorId ID of the author that set the run. Cannot be null and must exist.
      * @return The created run as it appears in the database.
      */
-    public Run addRun(Run run, Integer gameId, Integer authorId) {
-        if (run.getId() != null)
-            throw new IllegalArgumentException("New run cannot already have an ID");
-
-        Game foundGame = gameRepository.findById(gameId)
-                .orElseThrow(() -> new EntryNotFoundException("Game not found: " + gameId));
-        Author foundAuthor = authorRepository.findById(authorId)
-                .orElseThrow(() -> new EntryNotFoundException("Author not found: " + authorId));
-        run.setGame(foundGame);
-        run.setAuthor(foundAuthor);
-
-        return runRepository.save(run);
+    public RunResponse addRun(RunRequest run) {
+        Game foundGame = gameRepository.findById(run.getGameId())
+                .orElseThrow(() -> new EntryNotFoundException("Game not found: " + run.getGameId()));
+        Author foundAuthor = authorRepository.findById(run.getAuthorId())
+                .orElseThrow(() -> new EntryNotFoundException("Author not found: " + run.getAuthorId()));
+        
+        Run runEntity = run.fromRequest(foundGame, foundAuthor);
+        Run savedRun = runRepository.save(runEntity);
+        return new RunResponse(savedRun);
     }
 
     /**
      * Gets all runs in the database.
      * @return A list containing all existing runs.
      */
-    public List<Run> getAllRuns() {
-        return runRepository.findAll();
+    public List<RunResponse> getAllRuns() {
+        List<Run> runEntities = runRepository.findAll();
+        return runEntities.stream().map(RunResponse::new).toList();
     }
 
     /**
@@ -64,49 +64,30 @@ public class RunService
      * @param id Target ID of the run to retrieve.
      * @return The target run.
      */
-    public Run getRunById(Integer id) {
-        return runRepository.findById(id)
+    public RunResponse getRunById(Integer id) {
+        Run foundRun = runRepository.findById(id)
             .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
+        return new RunResponse(foundRun);
     }
 
     /**
-     * Updates the run with the given ID with the provided data. Does not change the linked game or author.
+     * Updates the run with the given ID with the provided data.
      * @param id Target ID of the run to update.
-     * @param updatedRun Run data to update the run in the database with.
+     * @param updatedRun Run data to update the run in the database with, including a gameId and authorId to update references with.
      * @return The updated run.
      */
-    public Run updateRun(Integer id, Run updatedRun) {
+    public RunResponse updateRun(Integer id, RunRequest updatedRun) {
         Run foundRun = runRepository.findById(id)
             .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
+        Game foundGame = gameRepository.findById(updatedRun.getGameId())
+                .orElseThrow(() -> new EntryNotFoundException("Game not found: " + updatedRun.getGameId()));
+        Author foundAuthor = authorRepository.findById(updatedRun.getAuthorId())
+                .orElseThrow(() -> new EntryNotFoundException("Author not found: " + updatedRun.getAuthorId()));
 
-        foundRun.setCategory(updatedRun.getCategory());
-        foundRun.setTimeMilliseconds(updatedRun.getTimeMilliseconds());
-        foundRun.setVideoUrl(updatedRun.getVideoUrl());
-        foundRun.setSetDate(updatedRun.getSetDate());
-        foundRun.setVerified(updatedRun.getVerified());
-
-        return runRepository.save(foundRun);
-    }
-
-    /**
-     * Updates the run with the given ID with the provided game and author. Does not alter any other run data.
-     * @param id Target ID of the run to update.
-     * @param gameId Game ID to link the run in the database to. Cannot be null and must exist.
-     * @param authorId Author ID to link the run in the database to. Cannot be null and must exist.
-     * @return The updated run.
-     */
-    public Run updateRunLinks(Integer id, Integer gameId, Integer authorId){
-        Run foundRun = runRepository.findById(id)
-            .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
-
-        Game foundGame = gameRepository.findById(gameId)
-                .orElseThrow(() -> new EntryNotFoundException("Game not found: " + gameId));
-        Author foundAuthor = authorRepository.findById(authorId)
-                .orElseThrow(() -> new EntryNotFoundException("Author not found: " + authorId));
-        foundRun.setGame(foundGame);
-        foundRun.setAuthor(foundAuthor);
-
-        return runRepository.save(foundRun);
+        foundRun = updatedRun.fromRequest(foundGame, foundAuthor);
+        foundRun.setId(id);
+        Run savedRun = runRepository.save(foundRun);
+        return new RunResponse(savedRun);
     }
 
     /**
@@ -114,6 +95,8 @@ public class RunService
      * @param id Target ID to delete.
      */
     public void deleteRun(Integer id) {
+        runRepository.findById(id)
+            .orElseThrow(() -> new EntryNotFoundException("No run found with ID: " + id));
         runRepository.deleteById(id);
     }
 }

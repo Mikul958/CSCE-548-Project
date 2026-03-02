@@ -1,6 +1,7 @@
 package com.speedrun.csce548.controller;
 
-import com.speedrun.csce548.models.Run;
+import com.speedrun.csce548.models.RunRequest;
+import com.speedrun.csce548.models.RunResponse;
 import com.speedrun.csce548.service.RunService;
 
 import org.springframework.http.HttpStatus;
@@ -21,34 +22,28 @@ public class RunController
 
     // CREATE ENDPOINTS
     @PostMapping
-    public ResponseEntity<Run> create(@RequestParam Integer gameId, @RequestParam Integer authorId, @RequestBody Run run) {
-        Run addedRun = runService.addRun(run, gameId, authorId);
+    public ResponseEntity<RunResponse> create(@RequestBody RunRequest run) {
+        RunResponse addedRun = runService.addRun(run);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedRun);
     }
 
     // READ ENDPOINTS
     @GetMapping
-    public ResponseEntity<List<Run>> getAll() {
-        List<Run> retrievedRuns = runService.getAllRuns();
+    public ResponseEntity<List<RunResponse>> getAll() {
+        List<RunResponse> retrievedRuns = runService.getAllRuns();
         return ResponseEntity.ok(retrievedRuns);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Run> getById(@PathVariable Integer id) {
-        Run retrievedRun = runService.getRunById(id);
+    public ResponseEntity<RunResponse> getById(@PathVariable Integer id) {
+        RunResponse retrievedRun = runService.getRunById(id);
         return ResponseEntity.ok(retrievedRun);
     }
 
     // UPDATE ENDPOINTS
-    @PutMapping("/{id}/data")
-    public ResponseEntity<Run> update(@PathVariable Integer id, @RequestBody Run run) {
-        Run updatedRun = runService.updateRun(id, run);
-        return ResponseEntity.ok(updatedRun);
-    }
-
-    @PutMapping("/{id}/links")
-    public ResponseEntity<Run> update(@PathVariable Integer id, @RequestParam Integer gameId, @RequestParam Integer authorId) {
-        Run updatedRun = runService.updateRunLinks(id, gameId, authorId);
+    @PutMapping("/{id}")
+    public ResponseEntity<RunResponse> update(@PathVariable Integer id, @RequestBody RunRequest run) {
+        RunResponse updatedRun = runService.updateRun(id, run);
         return ResponseEntity.ok(updatedRun);
     }
 

@@ -1,8 +1,9 @@
 package com.speedrun.csce548.controller;
 
-import com.speedrun.csce548.models.Author;
+import com.speedrun.csce548.models.AuthorRequest;
+import com.speedrun.csce548.models.AuthorResponse;
 import com.speedrun.csce548.service.AuthorService;
-import com.speedrun.csce548.models.Run;
+import com.speedrun.csce548.models.RunResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,34 +23,34 @@ public class AuthorController
 
     // CREATE ENDPOINTS
     @PostMapping
-    public ResponseEntity<Author> create(@RequestBody Author author) {
-        Author addedAuthor = authorService.addAuthor(author);
+    public ResponseEntity<AuthorResponse> create(@RequestBody AuthorRequest author) {
+        AuthorResponse addedAuthor = authorService.addAuthor(author);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedAuthor);
     }
 
     // READ ENDPOINTS
     @GetMapping
-    public ResponseEntity<List<Author>> getAll() {
-        List<Author> retrievedAuthors = authorService.getAllAuthors();
+    public ResponseEntity<List<AuthorResponse>> getAll() {
+        List<AuthorResponse> retrievedAuthors = authorService.getAllAuthors();
         return ResponseEntity.ok(retrievedAuthors);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> getById(@PathVariable Integer id) {
-        Author retrievedAuthor = authorService.getAuthorById(id);
+    public ResponseEntity<AuthorResponse> getById(@PathVariable Integer id) {
+        AuthorResponse retrievedAuthor = authorService.getAuthorById(id);
         return ResponseEntity.ok(retrievedAuthor);
     }
 
     @GetMapping("/{id}/history")
-    public ResponseEntity<List<Run>> getHistory(@PathVariable Integer id) {
-        List<Run> authorHistory = authorService.getRunHistory(id);
+    public ResponseEntity<List<RunResponse>> getHistory(@PathVariable Integer id) {
+        List<RunResponse> authorHistory = authorService.getRunHistory(id);
         return ResponseEntity.ok(authorHistory);
     }
 
     // UPDATE ENDPOINTS
     @PutMapping("/{id}")
-    public ResponseEntity<Author> update(@PathVariable Integer id, @RequestBody Author author) {
-        Author updatedAuthor = authorService.updateAuthor(id, author);
+    public ResponseEntity<AuthorResponse> update(@PathVariable Integer id, @RequestBody AuthorRequest author) {
+        AuthorResponse updatedAuthor = authorService.updateAuthor(id, author);
         return ResponseEntity.ok(updatedAuthor);
     }
 

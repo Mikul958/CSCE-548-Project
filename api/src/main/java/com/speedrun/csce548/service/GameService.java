@@ -2,7 +2,10 @@ package com.speedrun.csce548.service;
 
 import com.speedrun.csce548.exceptions.EntryNotFoundException;
 import com.speedrun.csce548.models.Game;
+import com.speedrun.csce548.models.GameRequest;
+import com.speedrun.csce548.models.GameResponse;
 import com.speedrun.csce548.models.Run;
+import com.speedrun.csce548.models.RunResponse;
 import com.speedrun.csce548.repository.GameRepository;
 import com.speedrun.csce548.repository.RunRepository;
 
@@ -29,18 +32,19 @@ public class GameService
      * @param game Data for the new game.
      * @return The created game as it appears in the database.
      */
-    public Game addGame(Game game) {
-        if (game.getId() != null)
-            throw new IllegalArgumentException("New game cannot already have an ID");
-        return gameRepository.save(game);
+    public GameResponse addGame(GameRequest game) {
+        Game gameEntity = game.fromRequest();
+        Game savedGame = gameRepository.save(gameEntity);
+        return new GameResponse(savedGame);
     }
 
     /**
      * Gets all games in the database.
      * @return A list containing all existing games.
      */
-    public List<Game> getAllGames() {
-        return gameRepository.findAll();
+    public List<GameResponse> getAllGames() {
+        List<Game> gameEntities = gameRepository.findAll();
+        return gameEntities.stream().map(GameResponse::new).toList();
     }
 
     /**
@@ -48,9 +52,10 @@ public class GameService
      * @param id Target ID of the game to retrieve.
      * @return The target game.
      */
-    public Game getGameById(Integer id) {
-        return gameRepository.findById(id)
+    public GameResponse getGameById(Integer id) {
+        Game foundGame = gameRepository.findById(id)
             .orElseThrow(() -> new EntryNotFoundException("No game found with ID: " + id));
+        return new GameResponse(foundGame);
     }
 
     /**
@@ -59,18 +64,14 @@ public class GameService
      * @param updatedGame Game data to update the run in the database with.
      * @return The updated game.
      */
-    public Game updateGame(Integer id, Game updatedGame) {
+    public GameResponse updateGame(Integer id, GameRequest updatedGame) {
         Game foundGame = gameRepository.findById(id)
             .orElseThrow(() -> new EntryNotFoundException("No game found with ID: " + id));
 
-        foundGame.setTitle(updatedGame.getTitle());
-        foundGame.setDescription(updatedGame.getDescription());
-        foundGame.setThumbnailUrl(updatedGame.getThumbnailUrl());
-        foundGame.setReleaseDate(updatedGame.getReleaseDate());
-        foundGame.setDeveloper(updatedGame.getDeveloper());
-        foundGame.setPublisher(updatedGame.getPublisher());
-
-        return gameRepository.save(foundGame);
+        foundGame = updatedGame.fromRequest();
+        foundGame.setId(id);
+        Game savedGame = gameRepository.save(foundGame);
+        return new GameResponse(savedGame);
     }
 
     /**
@@ -78,6 +79,8 @@ public class GameService
      * @param id Target ID to delete.
      */
     public void deleteGame(Integer id) {
+        gameRepository.findById(id)
+            .orElseThrow(() -> new EntryNotFoundException("No game found with ID: " + id));
         gameRepository.deleteById(id);
     }
 
@@ -89,11 +92,16 @@ public class GameService
      * @param category The category of the game to retrieve times for.
      * @return A list of runs ordered from fastest to slowest.
      */
-    public List<Run> getLeaderboardForGame(Integer gameId, String category) {
-        return runRepository.findByGame_IdAndCategoryOrderByTimeMillisecondsAsc(gameId, category);
+    public List<RunResponse> getLeaderboardForGame(Integer gameId, String category) {
+        List<Run> rawLeaderboard = runRepository.findByGame_IdAndCategoryOrderByTimeMillisecondsAsc(gameId, category);
+        return rawLeaderboard.stream().map(RunResponse::new).toList();
     }
 
-    // DISTINCT CATEGORIES
+    /**
+     * Retrieved a list of existing categories for a given game.
+     * @param gameId The ID of the game to retrieve categories for.
+     * @return A list of categories represented as raw strings.
+     */
     public List<String> getCategoriesForGame(Integer gameId) {
         return runRepository.findDistinctCategoriesByGameId(gameId);
     }
