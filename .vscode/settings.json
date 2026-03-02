@@ -1,7 +1,0 @@
-{
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "java.project.sourcePaths": [
-        "src",
-        "api/src/main/java/com/speedrun/csce548"
-    ]
-}

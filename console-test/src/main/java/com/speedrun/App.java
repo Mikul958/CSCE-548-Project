@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Temporary app that allows API endpoints to be executed via console tool.
  */
-public class App 
+public class App
 {
     private static final String BASE_URL = "https://speedrun-csce548.fly.dev";
     private static final HttpClient client = HttpClient.newHttpClient();
