@@ -8,8 +8,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * Temporary app that allows API endpoints to be executed via console tool.
  */
@@ -17,7 +15,6 @@ public class App
 {
     private static final String BASE_URL = "https://speedrun-csce548.fly.dev";
     private static final HttpClient client = HttpClient.newHttpClient();
-    private static final ObjectMapper mapper = new ObjectMapper();
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
@@ -135,8 +132,6 @@ public class App
     // =========================
 
     private static void createAuthor() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Username: ");
         String username = scanner.nextLine();
 
@@ -198,8 +193,6 @@ public class App
     }
 
     private static void updateAuthor() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Author ID to update: ");
         Integer id = Integer.parseInt(scanner.nextLine());
 
@@ -258,8 +251,6 @@ public class App
     // =========================
 
     private static void createGame() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Title: ");
         String title = scanner.nextLine();
 
@@ -326,8 +317,6 @@ public class App
     }
 
     private static void getLeaderboard() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Game ID: ");
         Integer gameId = Integer.parseInt(scanner.nextLine());
 
@@ -352,8 +341,6 @@ public class App
     }
 
     private static void updateGame() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Game ID to update: ");
         Integer id = Integer.parseInt(scanner.nextLine());
 
@@ -417,8 +404,6 @@ public class App
     // =========================
 
     private static void createRun() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Game ID: ");
         Integer gameId = Integer.parseInt(scanner.nextLine());
 
@@ -482,8 +467,6 @@ public class App
     }
 
     private static void updateRunData() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Run ID to update: ");
         Integer id = Integer.parseInt(scanner.nextLine());
 
@@ -527,8 +510,6 @@ public class App
     }
 
     private static void updateRunLinks() throws Exception {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Run ID to update: ");
         Integer id = Integer.parseInt(scanner.nextLine());
 
