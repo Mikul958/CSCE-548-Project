@@ -106,10 +106,9 @@ public class App
             System.out.println("1. Create");
             System.out.println("2. Get All");
             System.out.println("3. Get By ID");
-            System.out.println("4. Update Data");
-            System.out.println("5. Update Links");
-            System.out.println("6. Delete");
-            System.out.println("7. Back");
+            System.out.println("4. Update Run");
+            System.out.println("5. Delete");
+            System.out.println("6. Back");
             System.out.print("Choose option: ");
 
             int choice = Integer.parseInt(scanner.nextLine());
@@ -118,10 +117,9 @@ public class App
                 case 1 -> createRun();
                 case 2 -> getAllRuns();
                 case 3 -> getRunById();
-                case 4 -> updateRunData();
-                case 5 -> updateRunLinks();
-                case 6 -> deleteRun();
-                case 7 -> { return; }
+                case 4 -> updateRun();
+                case 5 -> deleteRun();
+                case 6 -> { return; }
                 default -> System.out.println("Invalid option");
             }
         }
@@ -138,8 +136,8 @@ public class App
         System.out.print("Display Name: ");
         String displayName = scanner.nextLine();
 
-        System.out.print("Password Hash: ");
-        String passwordHash = scanner.nextLine();
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
 
         System.out.print("Profile Picture URL (optional, press enter to skip): ");
         String profilePictureUrl = scanner.nextLine();
@@ -151,14 +149,14 @@ public class App
             {
                 "username": "%s",
                 "displayName": "%s",
-                "passwordHash": "%s",
+                "password": "%s",
                 "profilePictureUrl": %s,
                 "createDate": "%s"
             }
             """,
             username,
             displayName,
-            passwordHash,
+            password,
             profilePictureUrl.isBlank() ? "null" : "\"" + profilePictureUrl + "\"",
             createDate
         );
@@ -193,8 +191,8 @@ public class App
         System.out.print("New Display Name: ");
         String displayName = scanner.nextLine();
 
-        System.out.print("New Password Hash: ");
-        String passwordHash = scanner.nextLine();
+        System.out.print("New Password: ");
+        String password = scanner.nextLine();
 
         System.out.print("New Profile Picture URL (optional, press enter to skip): ");
         String profilePictureUrl = scanner.nextLine();
@@ -213,7 +211,7 @@ public class App
             """,
             username,
             displayName,
-            passwordHash,
+            password,
             profilePictureUrl.isBlank() ? "null" : "\"" + profilePictureUrl + "\"",
             createDate
         );
@@ -381,6 +379,8 @@ public class App
 
         String json = String.format("""
             {
+                "gameId": %d,
+                "authorId": %d,
                 "category": "%s",
                 "timeMilliseconds": %d,
                 "videoUrl": %s,
@@ -388,6 +388,8 @@ public class App
                 "verified": %s
             }
             """,
+            gameId,
+            authorId,
             category,
             timeMilliseconds,
             videoUrl.isBlank() ? "null" : "\"" + videoUrl + "\"",
@@ -395,7 +397,7 @@ public class App
             verified
         );
 
-        String url = BASE_URL + "/runs?gameId=" + gameId + "&authorId=" + authorId;
+        String url = BASE_URL + "/runs";
         sendPost(url, json);
     }
 
@@ -409,9 +411,15 @@ public class App
         sendGet("/runs/" + id);
     }
 
-    private static void updateRunData() throws Exception {
+    private static void updateRun() throws Exception {
         System.out.print("Run ID to update: ");
         Integer id = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("New Game ID: ");
+        Integer gameId = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("New Author ID: ");
+        Integer authorId = Integer.parseInt(scanner.nextLine());
 
         System.out.print("New Category: ");
         String category = scanner.nextLine();
@@ -427,37 +435,24 @@ public class App
 
         String json = String.format("""
             {
+                "gameId": %d,
+                "authorId": %d,
                 "category": "%s",
                 "timeMilliseconds": %d,
                 "setDate": "%s",
                 "verified": %s
             }
             """,
+            gameId,
+            authorId,
             category,
             timeMilliseconds,
             setDate,
             verified
         );
 
-        String url = BASE_URL + "/runs/" + id + "/data";
+        String url = BASE_URL + "/runs/" + id;
         sendPut(url, json);
-    }
-
-    private static void updateRunLinks() throws Exception {
-        System.out.print("Run ID to update: ");
-        Integer id = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("New Game ID: ");
-        Integer gameId = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("New Author ID: ");
-        Integer authorId = Integer.parseInt(scanner.nextLine());
-
-        String url = BASE_URL + "/runs/" + id +
-                    "/links?gameId=" + gameId +
-                    "&authorId=" + authorId;
-        
-        sendPut(url, null);
     }
 
     private static void deleteRun() throws Exception {
