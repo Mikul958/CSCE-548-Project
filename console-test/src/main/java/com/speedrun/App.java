@@ -163,17 +163,8 @@ public class App
             createDate
         );
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/authors"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        String url = BASE_URL + "/authors";
+        sendPost(url, json);
     }
 
     private static void getAllAuthors() throws Exception {
@@ -227,17 +218,8 @@ public class App
             createDate
         );
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/authors/" + id))
-                .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        String url = BASE_URL + "/authors/" + id;
+        sendPut(url, json);
     }
 
     private static void deleteAuthor() throws Exception {
@@ -287,17 +269,8 @@ public class App
             publisher.isBlank() ? "null" : "\"" + publisher + "\""
         );
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/games"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        String url = BASE_URL + "/games";
+        sendPost(url, json);
     }
 
     private static void getAllGames() throws Exception {
@@ -327,17 +300,7 @@ public class App
         String encodedCategory = URLEncoder.encode(category, StandardCharsets.UTF_8);
 
         String url = BASE_URL + "/games/leaderboard/" + gameId + "?category=" + encodedCategory;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        sendGet(url);
     }
 
     private static void updateGame() throws Exception {
@@ -380,17 +343,8 @@ public class App
             publisher.isBlank() ? "null" : "\"" + publisher + "\""
         );
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/games/" + id))
-                .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        String url = BASE_URL + "/games/" + id;
+        sendPut(url, json);
     }
 
     private static void deleteGame() throws Exception {
@@ -442,18 +396,7 @@ public class App
         );
 
         String url = BASE_URL + "/runs?gameId=" + gameId + "&authorId=" + authorId;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        sendPost(url, json);
     }
 
     private static void getAllRuns() throws Exception {
@@ -496,17 +439,8 @@ public class App
             verified
         );
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/runs/" + id + "/data"))
-                .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        String url = BASE_URL + "/runs/" + id + "/data";
+        sendPut(url, json);
     }
 
     private static void updateRunLinks() throws Exception {
@@ -522,17 +456,8 @@ public class App
         String url = BASE_URL + "/runs/" + id +
                     "/links?gameId=" + gameId +
                     "&authorId=" + authorId;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .PUT(HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Response: " + response.body());
+        
+        sendPut(url, null);
     }
 
     private static void deleteRun() throws Exception {
