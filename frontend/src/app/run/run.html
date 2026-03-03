@@ -11,7 +11,7 @@
   @if (!loading() && run(); as runData) {
     <div class="run-card">
 
-      <h2>{{ runData.game.title }}</h2>
+      <h2><a [routerLink]="['/game']" [queryParams]="{ id: runData.game.id }"> {{runData.game.title}} </a></h2>
       <h3 class="category">{{ runData.category }}</h3>
 
       <div class="info-row">

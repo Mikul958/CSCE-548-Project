@@ -11,8 +11,4 @@ export class AppComponent {
   protected readonly title = signal('speedrun-fe');
 
   router: Router = inject(Router)
-
-  goToHome() {
-    this.router.navigateByUrl('');
-  }
 }

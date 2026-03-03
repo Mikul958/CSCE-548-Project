@@ -1,8 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink} from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { switchMap, map } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 import { RunResponse } from '../../models/run';
 import { RunService } from '../services/run.service';
@@ -10,7 +8,7 @@ import { RunService } from '../services/run.service';
 @Component({
   selector: 'app-run',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './run.html',
   styleUrl: './run.scss',
 })
