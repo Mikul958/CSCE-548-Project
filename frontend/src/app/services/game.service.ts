@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import { GameRequest, GameResponse } from '../../models/game';
 import { RunResponse } from '../../models/run';
@@ -8,49 +8,39 @@ import { RunResponse } from '../../models/run';
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
-
+export class GameService
+{
   private http = inject(HttpClient);
+  private readonly baseUrl = 'https://speedrun-csce548.fly.dev/games'; // Check if this should be /games
 
-  private readonly baseUrl = 'http://localhost:8080/games';
-
-  // CREATE
-  create(game: GameRequest): Observable<GameResponse> {
-    return this.http.post<GameResponse>(this.baseUrl, game);
+  create(game: GameRequest): Promise<GameResponse> {
+    return firstValueFrom(this.http.post<GameResponse>(this.baseUrl, game));
   }
 
-  // READ - get all
-  getAll(): Observable<GameResponse[]> {
-    return this.http.get<GameResponse[]>(this.baseUrl);
+  getAll(): Promise<GameResponse[]> {
+    return firstValueFrom(this.http.get<GameResponse[]>(this.baseUrl));
   }
 
-  // READ - by id
-  getById(id: number): Observable<GameResponse> {
-    return this.http.get<GameResponse>(`${this.baseUrl}/${id}`);
+  getById(id: number): Promise<GameResponse> {
+    return firstValueFrom(this.http.get<GameResponse>(`${this.baseUrl}/${id}`));
   }
 
-  // READ - categories for a game
-  getCategories(id: number): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/${id}/categories`);
+  getCategories(id: number): Promise<string[]> {
+    return firstValueFrom(this.http.get<string[]>(`${this.baseUrl}/${id}/categories`));
   }
 
-  // READ - leaderboard (with query param)
-  getLeaderboard(id: number, category: string): Observable<RunResponse[]> {
+  getLeaderboard(id: number, category: string): Promise<RunResponse[]> {
     const params = new HttpParams().set('category', category);
-
-    return this.http.get<RunResponse[]>(
-      `${this.baseUrl}/${id}/leaderboard`,
-      { params }
+    return firstValueFrom(
+      this.http.get<RunResponse[]>(`${this.baseUrl}/${id}/leaderboard`, { params })
     );
   }
 
-  // UPDATE
-  update(id: number, game: GameRequest): Observable<GameResponse> {
-    return this.http.put<GameResponse>(`${this.baseUrl}/${id}`, game);
+  update(id: number, game: GameRequest): Promise<GameResponse> {
+    return firstValueFrom(this.http.put<GameResponse>(`${this.baseUrl}/${id}`, game));
   }
 
-  // DELETE
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  delete(id: number): Promise<void> {
+    return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/${id}`));
   }
 }

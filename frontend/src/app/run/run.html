@@ -1,1 +1,51 @@
-<p>Run Component</p>
+<div class="container">
+
+  @if (loading()) {
+    <div class="status">Loading run...</div>
+  }
+
+  @if (error()) {
+    <div class="status error">{{ error() }}</div>
+  }
+
+  @if (!loading() && run(); as runData) {
+    <div class="run-card">
+
+      <h2>{{ runData.game.title }}</h2>
+      <h3 class="category">{{ runData.category }}</h3>
+
+      <div class="info-row">
+        <span class="label">Runner:</span>
+        <span>{{ runData.author.username }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Time:</span>
+        <span class="time">{{ formatTime(runData.timeMilliseconds) }}</span>
+      </div>
+
+      @if (runData.setDate) {
+        <div class="info-row">
+          <span class="label">Date Set:</span>
+          <span>{{ runData.setDate | date:'mediumDate' }}</span>
+        </div>
+      }
+
+      @if (runData.verified) {
+        <div class="info-row">
+          <span class="verified">✔ Verified</span>
+        </div>
+      }
+
+      @if (runData.videoUrl) {
+        <div class="video-section">
+          <a [href]="runData.videoUrl" target="_blank">
+            Watch Video
+          </a>
+        </div>
+      }
+
+    </div>
+  }
+
+</div>
