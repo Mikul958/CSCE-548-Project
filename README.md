@@ -27,3 +27,9 @@ This project was built using MySQL and Java (planning on migrating to Spring, ch
 3. Deploy the API container using `fly deploy` and wait for the deployment to finish.
 4. Use `fly logs` to examine the logs of the API as it starts up and runs.
 5. Optionally, visit the URL `{{fly.io app url}}/health`; if the server is running, it should return a 200 OK.
+
+### Set up website container
+1. Navigate to `<repository root>/frontend` to ensure you are using the Angular Dockerfile and fly.toml configuration.
+2. Create the website container with `fly apps create speedrun-csce548-fe`.
+3. Deploy the website container using `fly deploy` and wait for the deployment to finish.
+4. The website can be visited at https://speedrun-csce548-fe.fly.dev.

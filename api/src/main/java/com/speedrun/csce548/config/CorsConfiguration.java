@@ -14,7 +14,7 @@ public class CorsConfiguration
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "https://https://speedrun-csce548-fe.fly.dev")
+                        .allowedOrigins("http://localhost:4200", "https://speedrun-csce548-fe.fly.dev")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
