@@ -13,15 +13,15 @@ export class GameService
   private http = inject(HttpClient);
   private readonly baseUrl = 'https://speedrun-csce548.fly.dev/games'; // Check if this should be /games
 
-  create(game: GameRequest): Promise<GameResponse> {
+  createGame(game: GameRequest): Promise<GameResponse> {
     return firstValueFrom(this.http.post<GameResponse>(this.baseUrl, game));
   }
 
-  getAll(): Promise<GameResponse[]> {
+  getAllGames(): Promise<GameResponse[]> {
     return firstValueFrom(this.http.get<GameResponse[]>(this.baseUrl));
   }
 
-  getById(id: number): Promise<GameResponse> {
+  getGameById(id: number): Promise<GameResponse> {
     return firstValueFrom(this.http.get<GameResponse>(`${this.baseUrl}/${id}`));
   }
 
@@ -36,11 +36,11 @@ export class GameService
     );
   }
 
-  update(id: number, game: GameRequest): Promise<GameResponse> {
+  updateGame(id: number, game: GameRequest): Promise<GameResponse> {
     return firstValueFrom(this.http.put<GameResponse>(`${this.baseUrl}/${id}`, game));
   }
 
-  delete(id: number): Promise<void> {
+  deleteGame(id: number): Promise<void> {
     return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/${id}`));
   }
 }

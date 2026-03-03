@@ -21,7 +21,7 @@
 
       <div class="info-row">
         <span class="label">Time:</span>
-        <span class="time">{{ formatTime(runData.timeMilliseconds) }}</span>
+        <span class="time">{{ runService.formatTime(runData.timeMilliseconds) }}</span>
       </div>
 
       @if (runData.setDate) {

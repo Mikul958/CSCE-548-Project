@@ -16,7 +16,7 @@ import { RunService } from '../services/run.service';
 })
 export class RunComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private runService = inject(RunService);
+  runService = inject(RunService);
 
   // Define these as Signals
   run = signal<RunResponse | undefined>(undefined);
@@ -39,7 +39,7 @@ export class RunComponent implements OnInit {
       }
 
       try {
-        const data = await this.runService.getById(id);
+        const data = await this.runService.getRunById(id);
         this.run.set(data);
         console.log(this.run())
       } catch (err) {
@@ -48,16 +48,5 @@ export class RunComponent implements OnInit {
         this.loading.set(false);
       }
     });
-  }
-
-  formatTime(ms: number): string {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const milliseconds = ms % 1000;
-
-    return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds
-      .toString()
-      .padStart(3, '0')}`;
   }
 }

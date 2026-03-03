@@ -15,23 +15,34 @@ export class RunService
   private http = inject(HttpClient);
   private readonly baseUrl = 'https://speedrun-csce548.fly.dev/runs'; // Check if this should be /runs
 
-  create(run: RunRequest): Promise<RunResponse> {
+  formatTime(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const milliseconds = ms % 1000;
+
+    return `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds
+      .toString()
+      .padStart(3, '0')}`;
+  }
+  
+  createRun(run: RunRequest): Promise<RunResponse> {
     return firstValueFrom(this.http.post<RunResponse>(this.baseUrl, run));
   }
 
-  getAll(): Promise<RunResponse[]> {
+  getAllRuns(): Promise<RunResponse[]> {
     return firstValueFrom(this.http.get<RunResponse[]>(this.baseUrl));
   }
 
-  getById(id: number): Promise<RunResponse> {
+  getRunById(id: number): Promise<RunResponse> {
     return firstValueFrom(this.http.get<RunResponse>(`${this.baseUrl}/${id}`));
   }
 
-  update(id: number, run: RunRequest): Promise<RunResponse> {
+  updateRun(id: number, run: RunRequest): Promise<RunResponse> {
     return firstValueFrom(this.http.put<RunResponse>(`${this.baseUrl}/${id}`, run));
   }
 
-  delete(id: number): Promise<void> {
+  deleteRun(id: number): Promise<void> {
     return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/${id}`));
   }
 }
