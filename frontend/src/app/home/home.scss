@@ -1,0 +1,37 @@
+.home-title {
+    text-align: center;
+}
+
+.home-container {
+  width: 60%;
+  min-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+.list-section {
+  margin-bottom: 2rem;
+  
+  table {
+    width: 100%; // Ensure tables fill their containers
+  }
+}
+
+.secondary-lists {
+  display: flex;
+  gap: 2rem; // Space between the two tables
+  align-items: flex-start;
+
+  .list-section {
+    flex: 1; // Both children take up equal space
+    min-width: 0; // Prevents tables from overflowing flex container
+  }
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+  .secondary-lists {
+    flex-direction: column;
+    gap: 0;
+  }
+}

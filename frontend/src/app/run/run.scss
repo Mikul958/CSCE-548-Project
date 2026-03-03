@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.status {
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #c62828;
+}
+
+.run-card {
+  width: 400px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f4f6f8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.run-card h2 {
+  margin: 0 0 0.25rem 0;
+}
+
+.category {
+  margin: 0 0 1rem 0;
+  font-weight: normal;
+  color: #555;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.time {
+  font-family: monospace;
+  font-size: 1.2rem;
+}
+
+.verified {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.video-section {
+  margin-top: 1rem;
+}
+
+.video-section a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.video-section a:hover {
+  text-decoration: underline;
+}
