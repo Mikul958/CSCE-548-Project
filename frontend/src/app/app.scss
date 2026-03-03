@@ -1,4 +1,59 @@
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000; // Ensures it stays above tables and images
+  width: 100%;
+  height: 64px;
+  background-color: #3f51b5; // Material Indigo
+  color: white;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .home-link {
-    margin-left: 1%;
-    color: #0d46a1;
+  margin: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.nav-links {
+  a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .active-link {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.content-area {
+  padding-top: 20px; // Adds a little breathing room below the bar
 }

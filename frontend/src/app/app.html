@@ -1,5 +1,14 @@
-<div class="nav-bar">
-  <h1 class="home-link" [routerLink]="['']">Home</h1>
-</div>
+<nav class="nav-bar">
+  <div class="nav-container">
+    <h1 class="home-link" [routerLink]="['']">
+      <span class="logo-icon">⏱️</span> Speedrun Tracker
+    </h1>
+    <div class="nav-links">
+      <a [routerLink]="['']" routerLinkActive="active-link">Dashboard</a>
+    </div>
+  </div>
+</nav>
 
-<router-outlet />
+<main class="content-area">
+  <router-outlet />
+</main>
