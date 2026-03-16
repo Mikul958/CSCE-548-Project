@@ -17,6 +17,15 @@
   }
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h2 { margin: 0; }
+}
+
 .secondary-lists {
   display: flex;
   gap: 2rem; // Space between the two tables

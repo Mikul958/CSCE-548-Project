@@ -36,7 +36,13 @@
     <div class="secondary-lists">
       
       <section class="list-section">
-        <h2>Existing Games</h2>
+        <div class="section-header">
+          <h2>Existing Games</h2>
+          <button mat-raised-button color="primary" (click)="openCreateGamePopup()">
+            + Create Game
+          </button>
+        </div>
+        
         <table mat-table [dataSource]="gameDataSource" class="mat-elevation-z2">
           <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef> Title </th>
@@ -51,7 +57,13 @@
       </section>
 
       <section class="list-section">
-        <h2>Existing Authors</h2>
+        <div class="section-header">
+          <h2>Existing Authors</h2>
+          <button mat-raised-button color="primary" (click)="openCreateAuthorPopup()">
+            + Create Author
+          </button>
+        </div>
+
         <table mat-table [dataSource]="authorDataSource" class="mat-elevation-z2">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>

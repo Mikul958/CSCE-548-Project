@@ -1,4 +1,5 @@
 import { Component, effect, inject, OnInit, signal, viewChild, AfterViewInit } from '@angular/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { Router, RouterLink } from '@angular/router';
@@ -6,6 +7,9 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthorService } from '../services/author.service';
 import { GameService } from '../services/game.service';
 import { RunService } from '../services/run.service';
+
+import { CreateAuthorComponent } from '../create-author/create-author';
+import { CreateGameComponent } from '../create-game/create-game';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +22,9 @@ export class HomeComponent implements OnInit {
   private authorService = inject(AuthorService);
   private gameService = inject(GameService);
   runService = inject(RunService);
+
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   // DataSources for Material Tables
   authorDataSource = new MatTableDataSource<any>([]);
@@ -70,5 +76,43 @@ export class HomeComponent implements OnInit {
     } finally {
       this.loading.set(false);
     }
+  }
+
+  // Inside HomeComponent class:
+  openCreateAuthorPopup() {
+    const dialogRef = this.dialog.open(CreateAuthorComponent, {
+      width: '500px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.refreshAuthors(); // Implement similar to refreshGames()
+      }
+    });
+  }
+
+  async refreshAuthors() {
+    const authors = await this.authorService.getAllAuthors();
+    this.authorDataSource.data = authors;
+  }
+
+  openCreateGamePopup() {
+    const dialogRef = this.dialog.open(CreateGameComponent, {
+      width: '600px',
+      disableClose: true // Prevents closing by clicking outside during save
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        // Refresh the games list if a game was actually created
+        this.refreshGames();
+      }
+    });
+  }
+
+  async refreshGames() {
+    const games = await this.gameService.getAllGames();
+    this.gameDataSource.data = games;
   }
 }

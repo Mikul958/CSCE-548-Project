@@ -1,0 +1,40 @@
+<div class="dialog-content">
+  <h2 mat-dialog-title>Add New Author</h2>
+  
+  <form [formGroup]="authorForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Display Name</mat-label>
+          <input matInput formControlName="displayName">
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Profile Picture URL</mat-label>
+        <input matInput formControlName="profilePictureUrl" placeholder="https://...">
+      </mat-form-field>
+
+      @if (error()) {
+        <p class="error-msg">{{ error() }}</p>
+      }
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="authorForm.invalid || loading()">
+        {{ loading() ? 'Saving...' : 'Create Author' }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>
