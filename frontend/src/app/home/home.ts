@@ -10,6 +10,7 @@ import { RunService } from '../services/run.service';
 
 import { CreateAuthorComponent } from '../create-author/create-author';
 import { CreateGameComponent } from '../create-game/create-game';
+import { CreateRunComponent } from '../create-run/create-run';
 
 @Component({
   selector: 'app-home',
@@ -115,4 +116,23 @@ export class HomeComponent implements OnInit {
     const games = await this.gameService.getAllGames();
     this.gameDataSource.data = games;
   }
+
+  openCreateRunPopup() {
+  const dialogRef = this.dialog.open(CreateRunComponent, {
+    width: '650px',
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === true) {
+      // Refresh the runs list to show the new submission
+      this.refreshRuns();
+    }
+  });
+}
+
+async refreshRuns() {
+  const runs = await this.runService.getAllRuns();
+  this.runDataSource.data = runs;
+}
 }

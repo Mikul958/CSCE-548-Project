@@ -6,7 +6,13 @@
   } @else {
     
     <section class="list-section">
-      <h2>Recent Runs</h2>
+      <div class="section-header">
+        <h2>Recent Runs</h2>
+        <button mat-raised-button color="accent" (click)="openCreateRunPopup()">
+          + Submit Run
+        </button>
+      </div>
+      
       <table mat-table [dataSource]="runDataSource" class="mat-elevation-z2">
         <ng-container matColumnDef="game">
           <th mat-header-cell *matHeaderCellDef> Game </th>
