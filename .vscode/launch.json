@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Csce548Application<csce548>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.speedrun.csce548.Csce548Application",
+            "projectName": "csce548",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
