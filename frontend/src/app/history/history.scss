@@ -2,35 +2,47 @@
   padding: 2rem;
   max-width: 1000px;
   margin: 0 auto;
+}
 
-  .author-header {
+.header-text {
+  .name-row {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    padding: 2rem;
-    background: white;
-    border-radius: 8px;
-    margin-bottom: 2rem;
+    gap: 8px; // Space between name and button
 
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #eee;
-    }
-
-    .header-text {
-      h1 { margin: 0; font-size: 2.5rem; }
-      .username { color: #666; margin: 0.2rem 0; font-size: 1.2rem; }
-      .joined { color: #888; font-size: 0.9rem; }
+    h1 {
+      margin: 0;
     }
   }
 
-  table {
-    width: 100%;
-    background: white;
+  .username {
+    margin: 4px 0;
+    color: #666;
+    font-weight: 500;
   }
-
-  h2 { margin-bottom: 1rem; }
 }
+
+.author-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #f0f0f0;
+}
+
+table {
+  width: 100%;
+  background: white;
+}
+
+h2 { margin-bottom: 1rem; }
