@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,8 +29,10 @@ export class RunDialogComponent implements OnInit {
   private runService = inject(RunService);
 
   dialogRef = inject(MatDialogRef<RunDialogComponent>);
+  public data = inject(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
 
+  isEditMode = signal(false);
   loading = signal(false);
   games = signal<any[]>([]);
   authors = signal<any[]>([]);
@@ -60,6 +62,7 @@ export class RunDialogComponent implements OnInit {
   authorSearch = signal('');
 
   async ngOnInit() {
+    this.loading.set(true);
     try {
       const [g, a] = await Promise.all([
         this.gameService.getAllGames(),
@@ -67,8 +70,32 @@ export class RunDialogComponent implements OnInit {
       ]);
       this.games.set(g);
       this.authors.set(a);
-    } catch (err) {
-      console.error("Failed to load lookup data", err);
+
+      if (this.data && this.data.run) {
+        this.isEditMode.set(true);
+        const run = this.data.run;
+
+        // Ensure we use the IDs from the nested objects if gameId/authorId aren't flat
+        const gameId = run.gameId || run.game?.id;
+        const authorId = run.authorId || run.author?.id;
+
+        this.runForm.patchValue({
+          gameId: gameId,
+          authorId: authorId,
+          category: run.category,
+          time: this.runService.formatTime(run.timeMilliseconds),
+          videoUrl: run.videoUrl,
+          setDate: run.setDate.split('T')[0],
+          verified: run.verified
+        });
+
+        // Crucial: Set the search signals to the actual Titles/Names 
+        // so the inputs aren't blank on load
+        this.gameSearch.set(this.displayGame(gameId));
+        this.authorSearch.set(this.displayAuthor(authorId));
+      }
+    } finally {
+      this.loading.set(false);
     }
   }
 
@@ -83,6 +110,7 @@ export class RunDialogComponent implements OnInit {
   async onSubmit() {
     if (this.runForm.invalid)
       return;
+    this.loading.set(true);
 
     const formValue = this.runForm.value;
     const runRequest: RunRequest = {
@@ -90,12 +118,15 @@ export class RunDialogComponent implements OnInit {
       timeMilliseconds: this.parseTimeToMs(formValue.time!)
     } as any;
 
-    this.loading.set(true);
     try {
-      await this.runService.createRun(runRequest as any);
+      if (this.isEditMode()) {
+        await this.runService.updateRun(this.data.run.id, runRequest);
+      } else {
+        await this.runService.createRun(runRequest);
+      }
       this.dialogRef.close(true);
     } catch (err) {
-      alert("Failed to create run.");
+      alert("Error saving run.");
     } finally {
       this.loading.set(false);
     }
