@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
 import { AuthorRequest, AuthorResponse } from '../../models/author';
 import { RunResponse } from '../../models/run';
 
@@ -14,7 +15,7 @@ import { RunResponse } from '../../models/run';
 export class AuthorService
 {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'https://speedrun-csce548.fly.dev/authors';
+  private readonly baseUrl = environment.baseUrl + '/authors';
 
   createAuthor(author: AuthorRequest): Promise<AuthorResponse> {
     return firstValueFrom(this.http.post<AuthorResponse>(this.baseUrl, author));

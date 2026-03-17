@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
 import { RunRequest, RunResponse } from '../../models/run';
 
 @Injectable({
@@ -13,7 +14,7 @@ import { RunRequest, RunResponse } from '../../models/run';
 export class RunService
 {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'https://speedrun-csce548.fly.dev/runs'; // Check if this should be /runs
+  private readonly baseUrl = environment.baseUrl + '/runs'; // Check if this should be /runs
 
   formatTime(ms: number): string {
     const milliseconds = ms % 1000;
