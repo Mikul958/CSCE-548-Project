@@ -7,7 +7,16 @@ This project consisted of two phases:
 
 This project was built using MySQL, Spring Boot, and Angular.
 
-## Hosting with Fly.io
+## Project Setup and Hosting
+
+### Project Requirements:
+For setup and development, this project requires the following:
+* MySQL 8.4
+* Java 21
+* Maven 3.8 or higher
+* Node 24 and npm
+
+This project was developed using Visual Studio Code, but it is not required to set up and run the project. Detailed information about project setup and hosting can be found in `setup_and_hosting.md`.
 
 ### Set up Fly.io
 1. Navigate to https://fly.io/docs/hands-on/install-flyctl/ and install the flyctl CLI.
@@ -18,18 +27,13 @@ This project was built using MySQL, Spring Boot, and Angular.
 2. Create the database container with `fly apps create speedrun-mysql`.
 3. Create a container volume (necessary for persistent storage) with `fly volumes create mysql_data -r iad -n 1`.
 4. Deploy the database container using `fly deploy` and wait for the deployment to finish.
-   <br>a. Database creation scripts should run automatically during this stage -- if you find the database ends up empty you can use `fly ssh console` to SSH into the container and run these scripts manually in SQL (located in docker-entrypoint-initdb-d, root pass=rootpassword123).
-5. Verify the app has been deployed using `fly apps list` and/or `fly status`.
 
 ### Set up API container
 1. Navigate to `<repository root>/api` to ensure you are using the Spring Boot Dockerfile and fly.toml configuration.
 2. Create the API container with `fly apps create speedrun-csce548`.
 3. Deploy the API container using `fly deploy` and wait for the deployment to finish.
-4. Use `fly logs` to examine the logs of the API as it starts up and runs.
-5. Optionally, visit the URL `{{fly.io app url}}/health`; if the server is running, it should return a 200 OK.
 
 ### Set up website container
 1. Navigate to `<repository root>/frontend` to ensure you are using the Angular Dockerfile and fly.toml configuration.
 2. Create the website container with `fly apps create speedrun-csce548-fe`.
 3. Deploy the website container using `fly deploy` and wait for the deployment to finish.
-4. The website can be visited at https://speedrun-csce548-fe.fly.dev.
