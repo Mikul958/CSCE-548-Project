@@ -61,7 +61,7 @@ export class AuthorDialogComponent {
           ...formValue,
           createDate: this.data.author.createDate
         } as any;
-        await this.authorService.updateAuthor(this.data.author.id, formValue as any);
+        await this.authorService.updateAuthor(this.data.author.id, authorUpdate);
       } else {
         // If creating, auto-generate the current date and pass in
         const newAuthor = {
@@ -70,6 +70,7 @@ export class AuthorDialogComponent {
         } as any;
         await this.authorService.createAuthor(newAuthor);
       }
+      this.dialogRef.close(true);
     } catch (err) {
       this.error.set('Failed to create author. Username might be taken.');
     } finally {

@@ -6,7 +6,7 @@
       <div class="form-grid">
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input matInput formControlName="username" [readonly]="isEditMode()">
+          <input matInput formControlName="username">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -16,7 +16,7 @@
       </div>
 
       <mat-form-field appearance="outline">
-        <mat-label>{{ 'Password' }}</mat-label>
+        <mat-label>{{ isEditMode() ? 'Update Password' : 'Password' }}</mat-label>
         <input matInput type="password" formControlName="password">
       </mat-form-field>
 
