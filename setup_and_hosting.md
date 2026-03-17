@@ -3,19 +3,19 @@
 ## Environment Setup
 
 ### IDE and Git
-* Download an IDE of your choice to work with the project. This project was originally developed using Visual Studio Code, but the steps to set up and run the project are not affected significantly by the chosen IDE.
-* Download and install Git and create a GitHub account.
+* Download an IDE of your choice to work with the project. This project was originally developed using [Visual Studio Code](https://code.visualstudio.com/download), but the steps to set up and run the project are not affected significantly by the chosen IDE.
+* Download and install [Git](https://git-scm.com/install/) and create a GitHub account.
 
 ### Database Setup
-* Download and install MySQL and MySQL Workbench to allow for work on a local database.
+* Download and install [MySQL](https://dev.mysql.com/downloads/installer/) and [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) to allow for work on a local database.
 * In MySQL workbench, create and open a new database connection
   * Run the `create_database.sql` script located in `<project root>/database/sql` to create the database and all of its tables.
   * Optionally, run the `insert_data.sql` script to create mock data that can be used for testing.
 
 ### Java and Maven
-* Download and install JDK 21 for your operating system.
+* Download and install [JDK 21](https://www.oracle.com/java/technologies/downloads/#jdk21-windows) for your operating system.
   * Verify Java has been successfully installed using `java --version`
-* Download and install Maven 3.8.xx or higher.
+* Download and install [Maven](https://maven.apache.org/install.html) 3.8.xx or higher.
   * Verify Maven has been successfully installed using `mvn -v`
   * Locate your JDK 21 installation and ensure your JAVA_HOME environment variable is set to the same path as your JDK’s root folder.
 * Install dependencies for the API by navigating to `<project root>/api` and running `mvn install`, or by any other method your IDE of choice permits.
@@ -23,7 +23,7 @@
   * If your IDE does not support this, the API can be built with `mvn clean install`, and the resulting JAR can be found in `<project-root>/api/target`.
 
 ### Node and Angular
-* Install Node 24, including npm in the installation options.
+* Install [Node 24](https://nodejs.org/en/download), including npm in the installation options.
   * Verify Node has been successfully installed using `node -v`
   * Verify npm has been successfully installed using `npm -v`
 * Install dependencies for the website by navigating to `<project root>/frontend` and running `npm install`.
@@ -32,7 +32,7 @@
 ## Deployment
 This project is intended to be deployed through Fly.io:
 * Before starting, create a Fly.io account and link billing information.
-* Install flyctl, Fly’s command line tool.
+* Install [flyctl](https://fly.io/docs/flyctl/install/), Fly’s command line tool.
   * Upon deploying for the first time, flyctl will ask you to log into your Fly account from the terminal.
 
 ### Database
@@ -55,6 +55,6 @@ The database container requires the use of Fly volumes for persistent storage, a
 * Navigate to `<project root>`/frontend to ensure you are using the Angular Dockerfile and fly.toml configuration.
 * Create the website container with `fly apps create speedrun-csce548-fe`.
 * Deploy the website container by running `fly deploy`.
-  * The website can be visited at https://speedrun-csce548-fe.fly.dev.
+  * The website can be visited at [https://speedrun-csce548-fe.fly.dev](https://speedrun-csce548-fe.fly.dev).
 
 Following code changes to the API or frontend, the updated app can be deployed to Fly immediately by simply navigating to that app’s project folder and running `fly deploy` again. Any changes made to the database schema will have to be performed directly on the Fly server.
