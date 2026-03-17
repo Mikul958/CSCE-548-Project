@@ -16,7 +16,7 @@ For setup and development, this project requires the following:
 * Maven 3.8 or higher
 * Node 24 and npm
 
-This project was developed using Visual Studio Code, but it is not required to set up and run the project. Detailed information about project setup and hosting can be found in `setup_and_hosting.md`.
+This project was developed using Visual Studio Code, but it is not required to set up and run the project. Detailed information about project setup and hosting can be found in `setup_and_hosting.pdf`.
 
 ### Set up Fly.io
 1. Navigate to https://fly.io/docs/hands-on/install-flyctl/ and install the flyctl CLI.
