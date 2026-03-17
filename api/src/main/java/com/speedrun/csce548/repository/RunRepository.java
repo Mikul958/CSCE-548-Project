@@ -11,6 +11,12 @@ import org.springframework.data.repository.query.Param;
 public interface RunRepository extends JpaRepository<Run, Integer>
 {
     /**
+     * Automatically returns a list of all existing runs, sorted by newest to oldest.
+     * @return An list of runs from most recent to least recent.
+     */
+    List<Run> findAllByOrderBySetDateDesc();
+    
+    /**
      * Automatically returns a list of runs set by the author with the given ID, sorted by newest to oldest.
      * @param authorId The ID of the author setting the list of runs.
      * @return An effective history of runs for the given author.
