@@ -8,9 +8,9 @@ import { AuthorService } from '../services/author.service';
 import { GameService } from '../services/game.service';
 import { RunService } from '../services/run.service';
 
-import { CreateAuthorComponent } from '../create-author/create-author';
-import { CreateGameComponent } from '../create-game/create-game';
-import { CreateRunComponent } from '../create-run/create-run';
+import { AuthorDialogComponent } from '../dialogs/author-dialog/author-dialog';
+import { GameDialogComponent } from '../dialogs/game-dialog/game-dialog';
+import { RunDialogComponent } from '../dialogs/run-dialog/run-dialog';
 
 @Component({
   selector: 'app-home',
@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
 
   // Inside HomeComponent class:
   openCreateAuthorPopup() {
-    const dialogRef = this.dialog.open(CreateAuthorComponent, {
+    const dialogRef = this.dialog.open(AuthorDialogComponent, {
       width: '500px',
       disableClose: true
     });
@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit {
   }
 
   openCreateGamePopup() {
-    const dialogRef = this.dialog.open(CreateGameComponent, {
+    const dialogRef = this.dialog.open(GameDialogComponent, {
       width: '600px',
       disableClose: true // Prevents closing by clicking outside during save
     });
@@ -118,21 +118,21 @@ export class HomeComponent implements OnInit {
   }
 
   openCreateRunPopup() {
-  const dialogRef = this.dialog.open(CreateRunComponent, {
-    width: '650px',
-    disableClose: true
-  });
+    const dialogRef = this.dialog.open(RunDialogComponent, {
+      width: '650px',
+      disableClose: true
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result === true) {
-      // Refresh the runs list to show the new submission
-      this.refreshRuns();
-    }
-  });
-}
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        // Refresh the runs list to show the new submission
+        this.refreshRuns();
+      }
+    });
+  }
 
-async refreshRuns() {
-  const runs = await this.runService.getAllRuns();
-  this.runDataSource.data = runs;
-}
+  async refreshRuns() {
+    const runs = await this.runService.getAllRuns();
+    this.runDataSource.data = runs;
+  }
 }

@@ -8,10 +8,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { AuthorService } from '../services/author.service';
-import { GameService } from '../services/game.service';
-import { RunService } from '../services/run.service';
-import { RunRequest } from '../../models/run';
+import { AuthorService } from '../../services/author.service';
+import { GameService } from '../../services/game.service';
+import { RunService } from '../../services/run.service';
+import { RunRequest } from '../../../models/run';
 
 @Component({
   selector: 'app-create-run',
@@ -20,15 +20,15 @@ import { RunRequest } from '../../models/run';
     CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, 
     MatInputModule, MatButtonModule, MatAutocompleteModule, MatCheckboxModule
   ],
-  templateUrl: './create-run.html',
-  styleUrl: './create-run.scss'
+  templateUrl: './run-dialog.html',
+  styleUrl: './run-dialog.scss'
 })
-export class CreateRunComponent implements OnInit {
+export class RunDialogComponent implements OnInit {
   private authorService = inject(AuthorService);
   private gameService = inject(GameService);
   private runService = inject(RunService);
 
-  dialogRef = inject(MatDialogRef<CreateRunComponent>);
+  dialogRef = inject(MatDialogRef<RunDialogComponent>);
   private fb = inject(FormBuilder);
 
   loading = signal(false);

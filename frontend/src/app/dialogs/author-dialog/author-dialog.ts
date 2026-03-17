@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { AuthorService } from '../services/author.service';
+import { AuthorService } from '../../services/author.service';
 
 @Component({
   selector: 'app-create-author',
@@ -18,13 +18,13 @@ import { AuthorService } from '../services/author.service';
     MatInputModule, 
     MatButtonModule
   ],
-  templateUrl: './create-author.html',
-  styleUrl: './create-author.scss'
+  templateUrl: './author-dialog.html',
+  styleUrl: './author-dialog.scss'
 })
-export class CreateAuthorComponent {
+export class AuthorDialogComponent {
   private fb = inject(FormBuilder);
   private authorService = inject(AuthorService);
-  private dialogRef = inject(MatDialogRef<CreateAuthorComponent>);
+  private dialogRef = inject(MatDialogRef<AuthorDialogComponent>);
 
   loading = signal(false);
   error = signal<string | null>(null);
