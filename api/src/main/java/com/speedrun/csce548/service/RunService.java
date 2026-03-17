@@ -55,7 +55,7 @@ public class RunService
      * @return A list containing all existing runs.
      */
     public List<RunResponse> getAllRuns() {
-        List<Run> runEntities = runRepository.findAll();
+        List<Run> runEntities = runRepository.findAllByOrderBySetDateDesc();
         return runEntities.stream().map(RunResponse::new).toList();
     }
 

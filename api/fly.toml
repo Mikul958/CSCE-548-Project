@@ -30,6 +30,9 @@ primary_region = 'iad'
     path = "/health"
     timeout = "2s"
 
+[env]
+  SPRING_PROFILES_ACTIVE = "prod"
+
 [[vm]]
   memory = '1gb'
   cpu_kind = 'shared'

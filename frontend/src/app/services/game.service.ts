@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
 import { GameRequest, GameResponse } from '../../models/game';
 import { RunResponse } from '../../models/run';
 
@@ -11,7 +12,7 @@ import { RunResponse } from '../../models/run';
 export class GameService
 {
   private http = inject(HttpClient);
-  private readonly baseUrl = 'https://speedrun-csce548.fly.dev/games'; // Check if this should be /games
+  private readonly baseUrl = environment.baseUrl + '/games'; // Check if this should be /games
 
   createGame(game: GameRequest): Promise<GameResponse> {
     return firstValueFrom(this.http.post<GameResponse>(this.baseUrl, game));

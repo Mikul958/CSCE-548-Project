@@ -1,5 +1,4 @@
 <div class="container">
-
   @if (loading()) {
     <div class="status">Loading run...</div>
   }
@@ -9,10 +8,22 @@
   }
 
   @if (!loading() && run(); as runData) {
-    <div class="run-card">
-
-      <h2><a [routerLink]="['/game']" [queryParams]="{ id: runData.game.id }"> {{runData.game.title}} </a></h2>
-      <h3 class="category">{{ runData.category }}</h3>
+    <div class="run-card mat-elevation-z3">
+      
+      <div class="run-header">
+        <div class="title-group">
+          <h2>
+            <a [routerLink]="['/game']" [queryParams]="{ id: runData.game.id }"> 
+              {{runData.game.title}} 
+            </a>
+          </h2>
+          <h3 class="category">{{ runData.category }}</h3>
+        </div>
+        
+        <button mat-mini-fab color="primary" (click)="openEditRunPopup()" aria-label="Edit Run">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
 
       <div class="info-row">
         <span class="label">Runner:</span>
@@ -39,13 +50,11 @@
 
       @if (runData.videoUrl) {
         <div class="video-section">
-          <a [href]="runData.videoUrl" target="_blank">
+          <a [href]="runData.videoUrl" target="_blank" class="watch-button">
             Watch Video
           </a>
         </div>
       }
-
     </div>
   }
-
 </div>

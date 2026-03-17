@@ -9,7 +9,12 @@
            class="profile-pic">
       
       <div class="header-text">
-        <h1>{{ author().displayName }}</h1>
+        <div class="name-row">
+          <h1>{{ author().displayName }}</h1>
+          <button mat-icon-button color="primary" (click)="openEditAuthorPopup()" matTooltip="Edit Profile">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
         <p class="username">&#64;{{ author().username }}</p>
         <p class="joined">Joined: {{ author().createDate | date:'mediumDate' }}</p>
       </div>

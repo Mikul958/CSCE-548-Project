@@ -6,7 +6,12 @@
     <div class="game-header mat-elevation-z3">
       <img [src]="game().thumbnailUrl" [alt]="game().title" class="game-poster">
       <div class="game-info">
-        <h1>{{ game().title }}</h1>
+        <div class="title-row">
+          <h1>{{ game().title }}</h1>
+          <button mat-mini-fab color="primary" (click)="openEditGamePopup()" aria-label="Edit Game">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
         <p class="description">{{ game().description }}</p>
         <div class="metadata">
           <span><strong>Dev:</strong> {{ game().developer }}</span>

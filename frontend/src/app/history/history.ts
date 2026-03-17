@@ -1,21 +1,26 @@
 import { Component, inject, OnInit, signal, viewChild, effect } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 
+import { AuthorDialogComponent } from '../dialogs/author-dialog/author-dialog';
 import { AuthorService } from '../services/author.service';
 import { RunService } from '../services/run.service';
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, RouterLink],
+  imports: [CommonModule, MatIconModule, MatTableModule, MatPaginatorModule, RouterLink],
   templateUrl: './history.html',
   styleUrls: ['./history.scss']
 })
 export class HistoryComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private dialog = inject(MatDialog);
+
   private authorService = inject(AuthorService);
   runService = inject(RunService);
 
@@ -57,5 +62,23 @@ export class HistoryComponent implements OnInit {
         this.loading.set(false);
       }
     });
+  }
+
+  openEditAuthorPopup() {
+    const dialogRef = this.dialog.open(AuthorDialogComponent, {
+      width: '500px',
+      data: { author: this.author() }
+    });
+
+    dialogRef.afterClosed().subscribe(success => {
+      if (success) {
+        this.refreshAuthor();
+      }
+    });
+  }
+
+  async refreshAuthor() {
+    const updatedAuthor = await this.authorService.getAuthorById(this.author().id);
+    this.author.set(updatedAuthor);
   }
 }
