@@ -14,7 +14,7 @@ import { RunRequest, RunResponse } from '../../models/run';
 export class RunService
 {
   private http = inject(HttpClient);
-  private readonly baseUrl = environment.baseUrl + '/runs'; // Check if this should be /runs
+  private readonly baseUrl = environment.baseUrl + '/runs';
 
   formatTime(ms: number): string {
     const milliseconds = ms % 1000;

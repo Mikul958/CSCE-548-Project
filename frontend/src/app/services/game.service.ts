@@ -12,7 +12,7 @@ import { RunResponse } from '../../models/run';
 export class GameService
 {
   private http = inject(HttpClient);
-  private readonly baseUrl = environment.baseUrl + '/games'; // Check if this should be /games
+  private readonly baseUrl = environment.baseUrl + '/games';
 
   createGame(game: GameRequest): Promise<GameResponse> {
     return firstValueFrom(this.http.post<GameResponse>(this.baseUrl, game));
